@@ -33,6 +33,9 @@ function moveSnake() {
     head.x = (head.x + tileCount) % tileCount;
     head.y = (head.y + tileCount) % tileCount;
 
+    if (head.x < 0) head.x = tileCount - 1;
+    if (head.y < 0) head.y = tileCount - 1;
+
     snake.unshift(head);
     snake.pop();
 }
@@ -60,13 +63,13 @@ function placeApple() {
 }
 
 function drawGame() {
-    context.fillStyle = '#fafafa';
+    context.fillStyle = '#282c34';
     context.fillRect(0, 0, canvas.width, canvas.height);
 
     context.fillStyle = '#ff0000';
     context.fillRect(apple.x * gridSize, apple.y * gridSize, gridSize, gridSize);
 
-    context.fillStyle = '#000000';
+    context.fillStyle = '#61dafb';
     snake.forEach(segment => {
         context.fillRect(segment.x * gridSize, segment.y * gridSize, gridSize, gridSize);
     });
