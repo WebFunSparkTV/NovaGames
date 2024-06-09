@@ -1,7 +1,7 @@
 const character = document.getElementById('character');
-const homeButton = document.getElementById('homeButton');
 const obstaclesContainer = document.getElementById('obstacles');
 const scoreValue = document.getElementById('score-value');
+const homeButton = document.getElementById('homeButton');
 
 let score = 0;
 let speed = 3;
@@ -62,8 +62,8 @@ setInterval(function() {
     }
 }, 1000);
 
+moveCharacter();
+
 homeButton.addEventListener('click', () => {
     window.location.href = '../index.html'; // Redirect to the main index.html
 });
-
-moveCharacter();
