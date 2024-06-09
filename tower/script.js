@@ -1,17 +1,10 @@
 document.addEventListener("DOMContentLoaded", function() {
     const grid = document.getElementById("grid");
-    const scoreDisplay = document.getElementById("score");
+    const scoreValue = document.getElementById("score-value");
     const startButton = document.getElementById("start-button");
 
     let score = 0;
     let gameStarted = false;
-
-    // Function to create a grid cell
-    function createCell() {
-        const cell = document.createElement("div");
-        cell.classList.add("cell");
-        return cell;
-    }
 
     // Function to create a tower
     function createTower() {
