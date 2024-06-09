@@ -6,33 +6,34 @@ body {
     margin: 0;
     padding: 0;
     display: flex;
-    flex-direction: column;
-    align-items: center;
     justify-content: center;
+    align-items: center;
     height: 100vh;
+}
+
+/* Container Styles */
+.container {
+    text-align: center;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* Header Styles */
 h1 {
     font-size: 2.5rem;
-    margin: 20px 0;
+    margin-bottom: 20px;
 }
 
-/* List Styles */
-ul {
-    list-style: none;
-    padding: 0;
+/* Game Links Styles */
+.game-links {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-li {
-    margin: 10px 0;
-}
-
-/* Link Styles */
-a {
+.game-button {
     text-decoration: none;
     color: #007bff;
     font-size: 1.2rem;
@@ -43,9 +44,10 @@ a {
     display: inline-block;
     text-align: center;
     width: 200px;
+    margin: 10px 0;
 }
 
-a:hover {
+.game-button:hover {
     background-color: #007bff;
     color: #fff;
 }
