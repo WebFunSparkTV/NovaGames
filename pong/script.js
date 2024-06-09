@@ -74,11 +74,20 @@ function movePaddle(event) {
     }
 }
 
+function moveRightPaddle(event) {
+    if (event.key === 'ArrowUp') {
+        player2Y -= paddleSpeed;
+    } else if (event.key === 'ArrowDown') {
+        player2Y += paddleSpeed;
+    }
+}
+
 homeButton.addEventListener('click', () => {
     window.location.href = '../index.html';
 });
 
 canvas.addEventListener('mousemove', movePaddle);
+window.addEventListener('keydown', moveRightPaddle);
 
 function gameLoop() {
     update();
