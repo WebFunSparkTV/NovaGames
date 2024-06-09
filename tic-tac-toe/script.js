@@ -21,24 +21,29 @@ const winningCombinations = [
     [2, 4, 6]
 ];
 
-cells.forEach((cell, index) => {
-    cell.addEventListener('click', () => {
-        if (cell.textContent === '' && gameActive) {
-            cell.textContent = currentPlayer;
-            if (checkWin()) {
-                endGame(currentPlayer);
-            } else if (isDraw()) {
-                endGame(null);
-            } else {
-                currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
-            }
-        }
-    });
+cells.forEach(cell => {
+    cell.addEventListener('click', handleCellClick);
 });
 
 homeButton.addEventListener('click', () => {
     window.location.href = '../index.html';
 });
+
+function handleCellClick(event) {
+    const cell = event.target;
+    const cellIndex = cell.getAttribute('data-index');
+
+    if (cell.textContent === '' && gameActive) {
+        cell.textContent = currentPlayer;
+        if (checkWin()) {
+            endGame(currentPlayer);
+        } else if (isDraw()) {
+            endGame(null);
+        } else {
+            currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+        }
+    }
+}
 
 function checkWin() {
     return winningCombinations.some(combination => {
