@@ -1,70 +1,103 @@
 const canvas = document.getElementById('gameCanvas');
-const ctx = canvas.getContext('2d');
+const context = canvas.getContext('2d');
+const homeButton = document.getElementById('homeButton');
+const scoreElement = document.getElementById('score');
+
 const gridSize = 20;
-let snake = [{ x: 200, y: 200 }];
-let direction = { x: 0, y: 0 };
-let food = { x: 0, y: 0 };
-let gameOver = false;
+const tileCount = canvas.width / gridSize;
 
-function draw() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    // Draw snake
-    snake.forEach(segment => {
-        ctx.fillStyle = 'green';
-        ctx.fillRect(segment.x, segment.y, gridSize, gridSize);
-    });
-
-    // Draw food
-    ctx.fillStyle = 'red';
-    ctx.fillRect(food.x, food.y, gridSize, gridSize);
-}
-
-function update() {
-    if (gameOver) return;
-
-    // Move snake
-    const newHead = { x: snake[0].x + direction.x * gridSize, y: snake[0].y + direction.y * gridSize };
-    snake.unshift(newHead);
-
-    // Check if snake eats the food
-    if (newHead.x === food.x && newHead.y === food.y) {
-        placeFood();
-    } else {
-        snake.pop();
-    }
-
-    // Check for collisions
-    if (newHead.x < 0 || newHead.x >= canvas.width || newHead.y < 0 || newHead.y >= canvas.height || snake.slice(1).some(segment => segment.x === newHead.x && segment.y === newHead.y)) {
-        gameOver = true;
-    }
-}
-
-function placeFood() {
-    food = {
-        x: Math.floor(Math.random() * canvas.width / gridSize) * gridSize,
-        y: Math.floor(Math.random() * canvas.height / gridSize) * gridSize
-    };
-}
+let snake = [{ x: 10, y: 10 }];
+let direction = { x: 1, y: 0 };
+let apple = { x: 5, y: 5 };
+let score = 0;
 
 function gameLoop() {
-    update();
-    draw();
-    if (!gameOver) {
-        setTimeout(gameLoop, 100);
+    moveSnake();
+    if (checkCollision()) {
+        resetGame();
     } else {
-        alert('Game Over!');
+        if (checkAppleCollision()) {
+            growSnake();
+            placeApple();
+            score++;
+            scoreElement.textContent = `Score: ${score}`;
+        }
+        drawGame();
     }
 }
 
-document.addEventListener('keydown', e => {
+function moveSnake() {
+    const head = { x: snake[0].x + direction.x, y: snake[0].y + direction.y };
+    
+    // Wrap snake position on edge of canvas
+    head.x = (head.x + tileCount) % tileCount;
+    head.y = (head.y + tileCount) % tileCount;
+
+    snake.unshift(head);
+    snake.pop();
+}
+
+function checkCollision() {
+    for (let i = 1; i < snake.length; i++) {
+        if (snake[i].x === snake[0].x && snake[i].y === snake[0].y) {
+            return true;
+        }
+    }
+    return false;
+}
+
+function checkAppleCollision() {
+    return snake[0].x === apple.x && snake[0].y === apple.y;
+}
+
+function growSnake() {
+    snake.push({ ...snake[snake.length - 1] });
+}
+
+function placeApple() {
+    apple.x = Math.floor(Math.random() * tileCount);
+    apple.y = Math.floor(Math.random() * tileCount);
+}
+
+function drawGame() {
+    context.fillStyle = '#fafafa';
+    context.fillRect(0, 0, canvas.width, canvas.height);
+
+    context.fillStyle = '#ff0000';
+    context.fillRect(apple.x * gridSize, apple.y * gridSize, gridSize, gridSize);
+
+    context.fillStyle = '#000000';
+    snake.forEach(segment => {
+        context.fillRect(segment.x * gridSize, segment.y * gridSize, gridSize, gridSize);
+    });
+}
+
+function resetGame() {
+    snake = [{ x: 10, y: 10 }];
+    direction = { x: 1, y: 0 };
+    score = 0;
+    scoreElement.textContent = `Score: ${score}`;
+}
+
+window.addEventListener('keydown', e => {
     switch (e.key) {
-        case 'ArrowUp': direction = { x: 0, y: -1 }; break;
-        case 'ArrowDown': direction = { x: 0, y: 1 }; break;
-        case 'ArrowLeft': direction = { x: -1, y: 0 }; break;
-        case 'ArrowRight': direction = { x: 1, y: 0 }; break;
+        case 'ArrowUp':
+            if (direction.y === 0) direction = { x: 0, y: -1 };
+            break;
+        case 'ArrowDown':
+            if (direction.y === 0) direction = { x: 0, y: 1 };
+            break;
+        case 'ArrowLeft':
+            if (direction.x === 0) direction = { x: -1, y: 0 };
+            break;
+        case 'ArrowRight':
+            if (direction.x === 0) direction = { x: 1, y: 0 };
+            break;
     }
 });
 
-placeFood();
-gameLoop();
+homeButton.addEventListener('click', () => {
+    window.location.href = '../index.html';
+});
+
+setInterval(gameLoop, 100);
