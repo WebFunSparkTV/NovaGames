@@ -1,41 +1,62 @@
 body {
     font-family: Arial, sans-serif;
     text-align: center;
-    background-color: #f7f7f7;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
 }
 
 .container {
-    margin-top: 50px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 300px;
+    text-align: center;
+}
+
+h1 {
+    margin-bottom: 20px;
+    color: #333;
 }
 
 #scoreboard {
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     margin-bottom: 20px;
 }
 
 #scoreboard span {
-    margin: 0 15px;
     font-size: 1.2rem;
+    color: #333;
 }
 
 #game {
     display: grid;
-    grid-template-columns: repeat(3, 100px);
+    grid-template-columns: repeat(3, 1fr);
     gap: 5px;
-    justify-content: center;
-    margin: 0 auto;
 }
 
 .cell {
-    width: 100px;
-    height: 100px;
-    background-color: #f0f0f0;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 80px;
+    height: 80px;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 2rem;
     cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.cell:hover {
+    background-color: #e0e0e0;
 }
 
 #homeButton {
@@ -47,6 +68,7 @@ body {
     color: white;
     border-radius: 5px;
     cursor: pointer;
+    transition: background-color 0.3s;
 }
 
 #homeButton:hover {
@@ -56,4 +78,5 @@ body {
 #message {
     margin-top: 20px;
     font-size: 1.2rem;
+    color: #333;
 }
